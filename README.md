@@ -1,6 +1,6 @@
 <h1>kurumayusamugariko</h1>
 <h3>お試し用リポジトリです</h3>
-<p>絶賛公開中</p>
+<p>\絶賛公開中 遊んでみてね/</p>
 
 <h4>ブロック崩しゲーム url: https://kurumayusamugariko.github.io/otamesi/game</h4>
  
