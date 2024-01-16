@@ -4,5 +4,5 @@
 
 https://kurumayusamugariko.github.io/otamesi/game →　ブロック崩しゲーム
 <img src="https://img.shields.io/badge/-Javascript-black.svg?logo=javascript&style=popout-square">
-
+<img src="https://img.shields.io/badge/-Node.js-black.svg?logo=node.js&style=popout-square">
 
