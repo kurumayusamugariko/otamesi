@@ -6,7 +6,7 @@
 
 
 
-1.ブロック崩しゲーム
+1.[ブロック崩しゲーム](https://kurumayusamugariko.github.io/otamesi/game)
 ---
 <https://kurumayusamugariko.github.io/otamesi/game> 
 
