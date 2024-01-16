@@ -1,4 +1,5 @@
-<h1>kurumayusamugarikoのテスト用リポジトリです。</h1>
+<h1>kurumayusamugariko</h1>
+<h2>のお試し用リポジトリです</h2>
 <p>絶賛公開中</p>
 
 <h4>ブロック崩しゲーム url: https://kurumayusamugariko.github.io/otamesi/game</h4>
