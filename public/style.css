@@ -1,0 +1,36 @@
+body{
+	width: 100%;
+	text-align: center;
+	background-color: aliceblue;
+	background-image: url("chara.png");
+	margin: 0;
+}
+
+h1{
+	background-color: white;
+}
+
+p{
+	font-family: 'Press Start 2P', system-ui;
+	font-size: small;
+	position: relative;
+	top: 300px;
+	right: 0;
+	left : 0;
+	margin: auto 0;
+	visibility: visible;
+	animation-name: bounce;
+	animation-duration: 2s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+}
+
+@keyframes bounce {
+	0%   { transform: translate(0%, 0%); } 
+	10%  { transform: translate(0%, 20%); } 
+	30%  { transform: translate(0%, 60%); }
+	50%  { transform: translate(0%, 100%); color: rgb(43, 174, 226);}
+	60%  { transform: translate(0%, 80%); }
+	80%  { transform: translate(0%, 20%); }	
+	100% { transform: translate(0%, 0%); }
+}
