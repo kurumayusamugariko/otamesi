@@ -29,7 +29,10 @@ class Sprite {
 }
 
 const background = new Sprite({
-	position: {x: -544, y: -1450},
+	position: {
+		x: -544,
+		y: -1450
+	},
 	image: image,
 });
 
@@ -62,6 +65,8 @@ function animate() {
 		playerImage.width / 4,
 		playerImage.height
 	)
+
+	// if()
 }
 animate();
 
@@ -69,17 +74,18 @@ animate();
 window.addEventListener('keydown', (e) => {
 	console.log(e)
 	switch(e.key){
-		case 'ArrowUp' || 'w':
-			console.log('up');
+		case 'ArrowUp' , 'w':
+			keys.w.pressed = true;
 			break;
-		case 'ArrowDown' || 's':
-			console.log('down');
+		case 'ArrowDown' , 's':
+			keys.s.pressed = true;
 			break;
-		case 'ArrowLeft' || 'a':
-			console.log('left');
+		case 'ArrowLeft' , 'a':
+			keys.a.pressed = true;
 			break;
-		case 'ArrowRight' || 'd':
-			console.log('right');
+		case 'ArrowRight' , 'd':
+			keys.d.pressed = true;
 			break;
 	};
+	console.log(keys);
 });
