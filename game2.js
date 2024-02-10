@@ -84,7 +84,7 @@ const keys = {
   },
 };
 
-const moveables = [background, ...boundaries];
+const moveables = [background, ...boundaries, foreground];
 
 function rectangularCollision({ rectangle1, rectangle2 }) {
   return (
