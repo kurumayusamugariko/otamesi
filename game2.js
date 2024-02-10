@@ -9,21 +9,6 @@ for (let i = 0; i < collisions.length; i += 80) {
   collisionsMap.push(collisions.slice(i, 80 + i));
 }
 
-class Boundary {
-  static width = 48.2;
-  static height = 48;
-  constructor({ position }) {
-    this.position = position;
-    this.width = 40;
-    this.height = 20;
-  }
-	//当たり判定の描画
-  draw() {
-    c.fillStyle = rgba(255, 0, 0, 0);//透明
-    c.fillRect(this.position.x, this.position.y, this.width, this.height);
-  }
-}
-
 const boundaries = [];
 const offset = {
   x: -544,
@@ -48,39 +33,13 @@ collisionsMap.forEach((row, i) => {
 const image = new Image();
 image.src = "./public/metamon/metown.png";
 
+//map画像objを作成
+const foregroundImage = new Image();
+foregroundImage.src = "./public/metamon/foreground.png";
+
 //player画像objを作成
 const playerImage = new Image();
 playerImage.src = "./public/metamon/player/playerDown.png";
-
-//画像を読み込んだら描画
-
-//playerのアニメーション
-class Sprite {
-  constructor({ position, velocity, image, frames = { max: 1 } }) {
-    this.position = position;
-    this.image = image;
-    this.frames = frames;
-
-    this.image.onload = () => {
-      this.width = this.image.width / this.frames.max;
-      this.height = this.image.height;
-    };
-  }
-
-  draw() {
-    c.drawImage(
-      this.image,
-      0,
-      0,
-      this.image.width / this.frames.max,
-      this.image.height,
-      this.position.x,
-      this.position.y,
-      this.image.width / this.frames.max,
-      this.image.height
-    );
-  }
-}
 
 //playerの初期位置
 const player = new Sprite({
@@ -100,6 +59,14 @@ const background = new Sprite({
     y: offset.y,
   },
   image: image,
+});
+
+const foreground = new Sprite({
+  position: {
+    x: offset.x,
+    y: offset.y,
+  },
+  image: foregroundImage
 });
 
 const keys = {
@@ -135,6 +102,7 @@ function animate() {
     boundary.draw();
   });
   player.draw();
+	foreground.draw();
 
 	let moving = true;
   //playerの移動。まぁ動かしてるのは背景だけど
