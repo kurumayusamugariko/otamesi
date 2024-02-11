@@ -51,7 +51,7 @@ class Boundary {
   }
   //当たり判定の描画
   draw() {
-    c.fillStyle = "rgba(255, 0, 0, 0.2)"; //透明
+    c.fillStyle = "rgba(255, 0, 0, 0)"; //透明
     c.fillRect(this.position.x, this.position.y, this.width, this.height);
   }
 }
