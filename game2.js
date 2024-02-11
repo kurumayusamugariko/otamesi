@@ -133,8 +133,14 @@ function rectangularCollision({ rectangle1, rectangle2 }) {
   );
 }
 
+const battle = {
+  initiated: false,
+};
+
 function animate() {
-  window.requestAnimationFrame(animate);
+  const animationId = window.requestAnimationFrame(animate);
+  console.log(animationId);
+
   background.draw();
   boundaries.forEach((boundary) => {
     boundary.draw();
@@ -145,7 +151,12 @@ function animate() {
   player.draw();
   foreground.draw();
 
-  //バトル用の当たり判定
+  let moving = true;
+  player.moving = false;
+
+  console.log(a);
+  if (battle.initiated) return;
+  //activate a battle
   if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
     for (let i = 0; i < battleZones.length; i++) {
       const battleZone = battleZones[i];
@@ -160,22 +171,40 @@ function animate() {
           battleZone.position.y + battleZone.height
         ) -
           Math.max(player.position.y, battleZone.position.y));
-      //player当たり判定
+
       if (
         rectangularCollision({
           rectangle1: player,
           rectangle2: battleZone,
         }) &&
-        overlappingArea > (player.width * player.height) / 2
+        overlappingArea > (player.width * player.height) / 2 &&
+        Math.random() < 0.1 //10%の確率でバトルスタート
       ) {
-        console.log("battleZone!");
+        //バトルスタートアニメーション
+				console.log("battle start");
+        //deactivate a current animation loop
+        window.cancelAnimationFrame(animationId);
+        battle.initiated = true;
+
+				gsap.to("#overlappingDiv", {
+          opacity: 1,
+          repeat: 3,
+          yoyo: true,
+          duration: 0.3,
+          onComplete: () => {
+            gsap.to("#overlappingDiv", {
+              opacity: 1,
+              duration: 0.3,
+            });
+
+            //activate a new animation loop
+          },
+        });
         break;
       }
     }
   }
 
-  let moving = true;
-  player.moving = false;
   //playerの移動。まぁ動かしてるのは背景だけど
   if (keys.w.pressed && lastKey === "w") {
     player.moving = true;
