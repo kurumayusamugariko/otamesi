@@ -139,7 +139,6 @@ const battle = {
 
 function animate() {
   const animationId = window.requestAnimationFrame(animate);
-  console.log(animationId);
 
   background.draw();
   boundaries.forEach((boundary) => {
@@ -154,7 +153,7 @@ function animate() {
   let moving = true;
   player.moving = false;
 
-  console.log(a);
+  console.log(animationId);
   if (battle.initiated) return;
   //activate a battle
   if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
@@ -181,23 +180,31 @@ function animate() {
         Math.random() < 0.1 //10%の確率でバトルスタート
       ) {
         //バトルスタートアニメーション
-				console.log("battle start");
+        console.log("battle start");
+
         //deactivate a current animation loop
         window.cancelAnimationFrame(animationId);
         battle.initiated = true;
 
-				gsap.to("#overlappingDiv", {
+        gsap.to("#overlappingDiv", {
           opacity: 1,
           repeat: 3,
           yoyo: true,
-          duration: 0.3,
+          duration: 0.4,
           onComplete: () => {
             gsap.to("#overlappingDiv", {
               opacity: 1,
-              duration: 0.3,
+              duration: 0.4,
+							onComplete: () => {
+								//activate a new animation loop
+								animateBattle();
+								gsap.to("#overlappingDiv", {
+									opacity: 0,
+									duration: 0.4,
+								});
+							},
             });
 
-            //activate a new animation loop
           },
         });
         break;
@@ -320,7 +327,23 @@ function animate() {
       });
   }
 }
-animate();
+// animate();
+
+const battleBackgroundImage = new Image();
+battleBackgroundImage.src = "./public/metamon/battleBackground.png";
+const battleBackground = new Sprite({
+  position: {
+    x: 0,
+    y: 0,
+  },
+  image: battleBackgroundImage,
+});
+function animateBattle() {
+  window.requestAnimationFrame(animateBattle);
+  battleBackground.draw();
+}
+
+animateBattle();
 
 let lastKey = "";
 
