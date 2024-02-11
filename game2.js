@@ -82,6 +82,7 @@ const player = new Sprite({
   image: playerDownImage,
   frames: {
     max: 4,
+		hold: 10
   },
   sprites: {
     up: playerUpImage,
@@ -151,7 +152,7 @@ function animate() {
   foreground.draw();
 
   let moving = true;
-  player.moving = false;
+  player.animate = false;
 
   console.log(animationId);
   if (battle.initiated) return;
@@ -214,7 +215,7 @@ function animate() {
 
   //playerの移動。まぁ動かしてるのは背景だけど
   if (keys.w.pressed && lastKey === "w") {
-    player.moving = true;
+    player.animate = true;
     player.image = player.sprites.up;
 
     for (let i = 0; i < boundaries.length; i++) {
@@ -242,7 +243,7 @@ function animate() {
         moveable.position.y += 3;
       });
   } else if (keys.a.pressed && lastKey === "a") {
-    player.moving = true;
+    player.animate = true;
     player.image = player.sprites.left;
 
     for (let i = 0; i < boundaries.length; i++) {
@@ -270,7 +271,7 @@ function animate() {
         moveable.position.x += 3;
       });
   } else if (keys.s.pressed && lastKey === "s") {
-    player.moving = true;
+    player.animate = true;
     player.image = player.sprites.down;
 
     for (let i = 0; i < boundaries.length; i++) {
@@ -298,7 +299,7 @@ function animate() {
         moveable.position.y -= 3;
       });
   } else if (keys.d.pressed && lastKey === "d") {
-    player.moving = true;
+    player.animate = true;
     player.image = player.sprites.right;
 
     for (let i = 0; i < boundaries.length; i++) {
@@ -350,7 +351,9 @@ const draggle = new Sprite({
 	image: draggleImage,
 	frames: {
 		max: 4,
+		hold: 30
 	},
+	animate: true
 });
 
 function animateBattle() {
