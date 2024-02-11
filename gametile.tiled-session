@@ -16,10 +16,10 @@
         },
         "game_map.tmx": {
             "scale": 4,
-            "selectedLayer": 9,
+            "selectedLayer": 10,
             "viewCenter": {
-                "x": 269.25,
-                "y": 383.625
+                "x": 461.75,
+                "y": 317.125
             }
         },
         "pokemonmap.tsx": {
