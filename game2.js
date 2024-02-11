@@ -338,9 +338,25 @@ const battleBackground = new Sprite({
   },
   image: battleBackgroundImage,
 });
+
+//敵の画像objを作成
+const draggleImage = new Image();
+draggleImage.src = "./public/metamon/monster/draggleSprite.png";
+const draggle = new Sprite({
+	position :{
+		x: 800,
+		y: 100,
+	},
+	image: draggleImage,
+	frames: {
+		max: 4,
+	},
+});
+
 function animateBattle() {
   window.requestAnimationFrame(animateBattle);
   battleBackground.draw();
+	draggle.draw();
 }
 
 animateBattle();
