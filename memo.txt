@@ -16,4 +16,5 @@ Tiledでの変更→画像の移植
 
 ゲーム外要素
 
-dev変更確認
+githubリンク
+https://github.com/kurumayusamugariko/otamesi
