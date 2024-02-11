@@ -1,0 +1,11 @@
+body{
+	background-color: #c299cc;
+	margin: 0 auto;
+}
+canvas{
+	border: 1px solid black;
+	margin: 8px;
+}
+h1{
+	text-align: center;
+}

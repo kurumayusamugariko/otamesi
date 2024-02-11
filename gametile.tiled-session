@@ -1,0 +1,45 @@
+{
+    "activeFile": "game_map.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "exportAsImage.useCurrentScale": true,
+    "fileStates": {
+        "C:/Users/rukayuki/Desktop/project/gamemap/modules/Collision.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Collision.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "game_map.tmx": {
+            "scale": 4,
+            "selectedLayer": 9,
+            "viewCenter": {
+                "x": 269.25,
+                "y": 383.625
+            }
+        },
+        "pokemonmap.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        }
+    },
+    "last.exportedFilePath": "C:/Users/rukayuki/Desktop/project/kurumayu",
+    "last.externalTilesetPath": "C:/Users/rukayuki/Desktop/project/gamemap/modules",
+    "last.imagePath": "C:/Users/rukayuki/Desktop/project/gamemap",
+    "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
+    "openFiles": [
+        "game_map.tmx"
+    ],
+    "project": "gametile.tiled-project",
+    "recentFiles": [
+        "game_map.tmx",
+        "C:/Users/rukayuki/Desktop/project/gamemap/modules/Collision.tsx",
+        "pokemonmap.tsx",
+        "Collision.tsx"
+    ]
+}
