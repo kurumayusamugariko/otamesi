@@ -15,3 +15,6 @@ Tiledでの変更→画像の移植
 バトルゾーン設置
 
 ゲーム外要素
+
+githubリンク
+https://github.com/kurumayusamugariko/otamesi
