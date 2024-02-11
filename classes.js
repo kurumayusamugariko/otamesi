@@ -42,16 +42,16 @@ class Sprite {
 }
 
 class Boundary {
-  static width = 48.2;
+  static width = 48;
   static height = 48;
   constructor({ position }) {
     this.position = position;
-    this.width = 40;
-    this.height = 20;
+    this.width = 48;
+    this.height = 48;
   }
   //当たり判定の描画
   draw() {
-    c.fillStyle = "rgba(255, 0, 0, 0)"; //透明
+    c.fillStyle = "rgba(255, 0, 0, 0.5)"; //透明
     c.fillRect(this.position.x, this.position.y, this.width, this.height);
   }
 }
