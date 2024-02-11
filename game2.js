@@ -380,8 +380,13 @@ function animateBattle() {
 // animate();
 animateBattle();
 
-let lastKey = "";
+document.querySelectorAll("button").forEach((button) => {
+	button.addEventListener("click", () => {
+		console.log("clicked");
+	});
+});
 
+let lastKey = "";
 //キーボード操作
 window.addEventListener("keydown", (e) => {
   switch (e.key) {
