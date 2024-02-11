@@ -361,7 +361,7 @@ function animateBattle() {
   battleBackground.draw();
 	draggle.draw();
 }
-
+// animate();
 animateBattle();
 
 let lastKey = "";
