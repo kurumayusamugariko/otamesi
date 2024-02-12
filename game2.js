@@ -382,6 +382,7 @@ function animateBattle() {
 }
 // animate();
 animateBattle();
+
 //our event listeners for our buttons(attack)
 document.querySelectorAll("button").forEach((button) => {
 	button.addEventListener("click", (e) => {
