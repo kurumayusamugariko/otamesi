@@ -8,6 +8,7 @@ class Sprite {
     animate = false,
     isEnemy = false,
     rotation = 0,
+		name
   }) {
     this.position = position;
     this.image = image;
@@ -23,6 +24,7 @@ class Sprite {
     this.health = 100;
     this.isEnemy = isEnemy;
     this.rotation = rotation;
+		this.name = name;
   }
 
   draw() {
@@ -65,11 +67,14 @@ class Sprite {
 
   //攻撃
   attack({ attack, recipient, renderedSprites }) {
+    document.querySelector("#dialogueBox").style.display = "block";
+		document.querySelector("#dialogueBox").innerHTML = this.name + 'used' + attack.name;
+
     let healthBar = "#enemyHealthBar";
     if (this.isEnemy) healthBar = "#playerHealthBar";
 
-		let rotation = 1;
-		if(this.isEnemy) rotation = -2.2;
+    let rotation = 1;
+    if (this.isEnemy) rotation = -2.2;
 
     this.health -= attack.damage;
 
@@ -88,7 +93,7 @@ class Sprite {
             hold: 10,
           },
           animate: true,
-					rotation,
+          rotation,
         });
 
         renderedSprites.splice(1, 0, fireball);
