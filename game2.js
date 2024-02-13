@@ -50,8 +50,6 @@ battleZonesMap.forEach((row, i) => {
   });
 });
 
-console.log(battleZones);
-
 //map画像objを作成
 const image = new Image();
 image.src = "./public/metamon/metown.png";
@@ -82,7 +80,7 @@ const player = new Sprite({
   image: playerDownImage,
   frames: {
     max: 4,
-		hold: 10
+    hold: 10,
   },
   sprites: {
     up: playerUpImage,
@@ -154,7 +152,6 @@ function animate() {
   let moving = true;
   player.animate = false;
 
-  console.log(animationId);
   if (battle.initiated) return;
   //activate a battle
   if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
@@ -178,15 +175,16 @@ function animate() {
           rectangle2: battleZone,
         }) &&
         overlappingArea > (player.width * player.height) / 2 &&
-        Math.random() < 0.1 //10%の確率でバトルスタート
+        Math.random() < 0.05 //5%の確率でバトルスタート
       ) {
-        //バトルスタートアニメーション
-        console.log("battle start");
-
         //deactivate a current animation loop
         window.cancelAnimationFrame(animationId);
-        battle.initiated = true;
 
+				audio.Map.stop();
+				audio.initBattle.play();
+				audio.Battle.play();
+
+        battle.initiated = true;
         gsap.to("#overlappingDiv", {
           opacity: 1,
           repeat: 3,
@@ -196,16 +194,16 @@ function animate() {
             gsap.to("#overlappingDiv", {
               opacity: 1,
               duration: 0.4,
-							onComplete: () => {
-								//activate a new animation loop
-								animateBattle();
-								gsap.to("#overlappingDiv", {
-									opacity: 0,
-									duration: 0.4,
-								});
-							},
+              onComplete: () => {
+                //activate a new animation loop
+                initBattle();
+                animateBattle();
+                gsap.to("#overlappingDiv", {
+                  opacity: 0,
+                  duration: 0.4,
+                });
+              },
             });
-
           },
         });
         break;
@@ -375,5 +373,13 @@ window.addEventListener("keyup", (e) => {
     case "d":
       keys.d.pressed = false;
       break;
+  }
+});
+
+let clicked = false;
+addEventListener("click", () => {
+  if (!clicked) {
+    audio.Map.play();
+    clicked = true;
   }
 });

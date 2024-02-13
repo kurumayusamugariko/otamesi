@@ -1,16 +1,12 @@
-const embyImage = new Image();
-embyImage.src = "./public/metamon/monster/embySprite.png";
-
-const draggleImage = new Image();
-draggleImage.src = "./public/metamon/monster/draggleSprite.png";
-
 const monsters = {
   Emby: {
     position: {
       x: 280,
       y: 325,
     },
-    image: embyImage,
+    image: {
+			src: "./public/metamon/monster/embySprite.png",
+		},
     frames: {
       max: 4,
       hold: 30,
@@ -25,7 +21,9 @@ const monsters = {
       x: 800,
       y: 100,
     },
-    image: draggleImage,
+    image: {
+			src: "./public/metamon/monster/draggleSprite.png",
+		},
     frames: {
       max: 4,
       hold: 30,
