@@ -99,6 +99,8 @@ class Monster extends Sprite {
 		gsap.to(this, {
 			opacity: 0,
 		})
+		audio.Battle.stop();
+		audio.victory.play();
   }
 
   //攻撃のアニメーションetc
@@ -117,6 +119,7 @@ class Monster extends Sprite {
 
     switch (attack.name) {
       case "Fireball":
+				audio.initFireball.play();
         const fireballImage = new Image();
         fireballImage.src = "./public/metamon/monster/fireball.png";
         const fireball = new Sprite({
@@ -140,6 +143,7 @@ class Monster extends Sprite {
           y: recipient.position.y,
           onComplete: () => {
             //enemy actually gets hit
+						audio.fireballHit.play();
             gsap.to(healthBar, {
               width: recipient.health + "%",
             });
@@ -177,6 +181,7 @@ class Monster extends Sprite {
             duration: 0.1,
             onComplete: () => {
               //enemy actually gets hit
+							audio.tackleHit.play();
               gsap.to(healthBar, {
                 width: recipient.health + "%",
               });
@@ -214,7 +219,7 @@ class Boundary {
   }
   //当たり判定の描画
   draw() {
-    c.fillStyle = "rgba(255, 0, 0, 0.5)"; //透明
+    c.fillStyle = "rgba(255, 0, 0, 0)"; //透明
     c.fillRect(this.position.x, this.position.y, this.width, this.height);
   }
 }

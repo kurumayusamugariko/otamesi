@@ -63,6 +63,7 @@ function initBattle() {
               });
 
 							battle.initiated = false;
+							audio.Map.play();
             },
           });
         });
@@ -99,6 +100,7 @@ function initBattle() {
                 });
 
 								battle.initiated = false;
+								audio.Map.play();
               },
             });
           });

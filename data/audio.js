@@ -14,4 +14,24 @@ const audio = {
 		html5: true,
 		volume: 0.1	
 	}),
+	tackleHit: new Howl({
+		src: "./public/metamon/audio/tackleHit.wav",
+		html5: true,
+		volume: 0.1	
+	}),
+	fireballHit: new Howl({
+		src: "./public/metamon/audio/fireballHit.wav",
+		html5: true,
+		volume: 0.1	
+	}),
+	initFireball: new Howl({
+		src: "./public/metamon/audio/initFireball.wav",
+		html5: true,
+		volume: 0.1	
+	}),
+	victory: new Howl({
+		src: "./public/metamon/audio/victory.wav",
+		html5: true,
+		volume: 0.3
+	}),
 };
