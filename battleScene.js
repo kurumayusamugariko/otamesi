@@ -44,6 +44,16 @@ document.querySelectorAll("button").forEach((button) => {
       renderedSprites,
     });
 
+    //敵が倒れた時
+    if (draggle.health <= 0) {
+      queue.push(() => {
+        draggle.faint();
+      });
+
+      return;
+    }
+
+    //draggle or enemy attacks right here
     const randomAttack =
       draggle.attacks[Math.floor(Math.random() * draggle.attacks.length)];
 
@@ -53,15 +63,23 @@ document.querySelectorAll("button").forEach((button) => {
         recipient: emby,
         renderedSprites,
       });
+
+      //味方が倒れた時
+      if (emby.health <= 0) {
+        queue.push(() => {
+          emby.faint();
+        });
+
+        return;
+      }
     });
   });
 
-	button.addEventListener("mouseenter", (e) => {
-		const selectedAttack = attacks[e.currentTarget.innerHTML];
-		document.querySelector("#attackType").innerHTML = selectedAttack.type;
-		document.querySelector("#attackType").style.color = selectedAttack.color;
-	});
-
+  button.addEventListener("mouseenter", (e) => {
+    const selectedAttack = attacks[e.currentTarget.innerHTML];
+    document.querySelector("#attackType").innerHTML = selectedAttack.type;
+    document.querySelector("#attackType").style.color = selectedAttack.color;
+  });
 });
 
 document.querySelector("#dialogueBox").addEventListener("click", (e) => {

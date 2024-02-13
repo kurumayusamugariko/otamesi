@@ -2,7 +2,7 @@
 class Sprite {
   constructor({
     position,
-		velocity,
+    velocity,
     image,
     frames = { max: 1, hold: 10 },
     sprites,
@@ -64,33 +64,43 @@ class Sprite {
 
 class Monster extends Sprite {
   constructor({
-		position,
-		velocity,
+    position,
+    velocity,
     image,
     frames = { max: 1, hold: 10 },
     sprites,
     animate = false,
     rotation = 0,
-		isEnemy = false,
-		name,
-		attacks
-	}) {
-		super({
-			position,
-			velocity,
-			image,
-			frames,
-			sprites,
-			animate,
-			rotation
-		});
-		this.health = 100;
+    isEnemy = false,
+    name,
+    attacks,
+  }) {
+    super({
+      position,
+      velocity,
+      image,
+      frames,
+      sprites,
+      animate,
+      rotation,
+    });
+    this.health = 100;
     this.isEnemy = isEnemy;
     this.name = name;
-		this.attacks = attacks;
-	}
+    this.attacks = attacks;
+  }
 
-	//攻撃のアニメーションetc
+  faint() {
+    document.querySelector("#dialogueBox").innerHTML = this.name + " fainted! ";
+		gsap.to(this.position, {
+			y: this.position.y + 20,
+		})
+		gsap.to(this, {
+			opacity: 0,
+		})
+  }
+
+  //攻撃のアニメーションetc
   attack({ attack, recipient, renderedSprites }) {
     document.querySelector("#dialogueBox").style.display = "block";
     document.querySelector("#dialogueBox").innerHTML =
@@ -102,7 +112,7 @@ class Monster extends Sprite {
     let rotation = 1;
     if (this.isEnemy) rotation = -2.2;
 
-    this.health -= attack.damage;
+    recipient.health -= attack.damage;
 
     switch (attack.name) {
       case "Fireball":
@@ -130,7 +140,7 @@ class Monster extends Sprite {
           onComplete: () => {
             //enemy actually gets hit
             gsap.to(healthBar, {
-              width: this.health + "%",
+              width: recipient.health + "%",
             });
 
             gsap.to(recipient.position, {
@@ -167,7 +177,7 @@ class Monster extends Sprite {
             onComplete: () => {
               //enemy actually gets hit
               gsap.to(healthBar, {
-                width: this.health + "%",
+                width: recipient.health + "%",
               });
 
               gsap.to(recipient.position, {
