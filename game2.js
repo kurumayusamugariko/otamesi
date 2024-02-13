@@ -14,6 +14,11 @@ for (let i = 0; i < battleZonesData.length; i += 80) {
   battleZonesMap.push(battleZonesData.slice(i, 80 + i));
 }
 
+const charactersMap = [];
+for (let i = 0; i < charactersMapData.length; i += 80) {
+  charactersMap.push(charactersMapData.slice(i, 80 + i));
+}
+
 const boundaries = [];
 const offset = {
   x: -544,
@@ -49,6 +54,82 @@ battleZonesMap.forEach((row, i) => {
       );
   });
 });
+
+const characters = [];
+const villagerImg = new Image();
+villagerImg.src = "./public/metamon/chara/Idle.png";
+const oldmanImg = new Image();
+oldmanImg.src = "./public/metamon/chara/oldman.png";
+const whoImg = new Image();
+whoImg.src = "./public/metamon/player/playerDown.png";
+
+charactersMap.forEach((row, i) => {
+  row.forEach((symbol, j) => {
+    //1026は村人
+    if (symbol === 1026) {
+      characters.push(
+        new Sprite({
+          position: {
+            x: j * Boundary.width + offset.x,
+            y: i * Boundary.height + offset.y,
+          },
+          image: villagerImg,
+          frames: {
+            max: 4,
+            hold: 60,
+          },
+          scale: 3,
+          animate: true,
+        })
+      );
+      //1031は老人
+    } else if (symbol === 1031) {
+      characters.push(
+        new Sprite({
+          position: {
+            x: j * Boundary.width + offset.x,
+            y: i * Boundary.height + offset.y,
+          },
+          image: oldmanImg,
+          frames: {
+            max: 4,
+            hold: 150,
+          },
+          scale: 3,
+          animate: true,
+        })
+      );
+    } else if (symbol === 1099) {
+      characters.push(
+        new Sprite({
+          position: {
+            x: j * Boundary.width + offset.x,
+            y: i * Boundary.height + offset.y,
+          },
+          image: whoImg,
+          frames: {
+            max: 4,
+            hold: 80,
+          },
+          scale: 1,
+        })
+      );
+    }
+
+    if (symbol !== 0) {
+      boundaries.push(
+        new Boundary({
+          position: {
+            x: j * Boundary.width + offset.x,
+            y: i * Boundary.height + offset.y,
+          },
+        })
+      );
+    }
+  });
+});
+
+console.log(characters);
 
 //map画像objを作成
 const image = new Image();
@@ -121,16 +202,21 @@ const keys = {
   },
 };
 
-const moveables = [background, ...boundaries, foreground, ...battleZones];
-
-function rectangularCollision({ rectangle1, rectangle2 }) {
-  return (
-    rectangle1.position.x + rectangle1.width >= rectangle2.position.x &&
-    rectangle1.position.x <= rectangle2.position.x + rectangle2.width &&
-    rectangle1.position.y <= rectangle2.position.y + rectangle2.height &&
-    rectangle1.position.y + rectangle1.height >= rectangle2.position.y
-  );
-}
+const moveables = [
+  background,
+  ...boundaries,
+  foreground,
+  ...battleZones,
+  ...characters,
+];
+const renderables = [
+  background,
+  ...boundaries,
+  ...battleZones,
+  ...characters,
+  player,
+  foreground,
+];
 
 const battle = {
   initiated: false,
@@ -138,16 +224,9 @@ const battle = {
 
 function animate() {
   const animationId = window.requestAnimationFrame(animate);
-
-  background.draw();
-  boundaries.forEach((boundary) => {
-    boundary.draw();
+  renderables.forEach((renderable) => {
+    renderable.draw();
   });
-  battleZones.forEach((battleZone) => {
-    battleZone.draw();
-  });
-  player.draw();
-  foreground.draw();
 
   let moving = true;
   player.animate = false;
@@ -175,14 +254,14 @@ function animate() {
           rectangle2: battleZone,
         }) &&
         overlappingArea > (player.width * player.height) / 2 &&
-        Math.random() < 0.05 //5%の確率でバトルスタート
+        Math.random() < 0.03 //3%の確率でバトルスタート
       ) {
         //deactivate a current animation loop
         window.cancelAnimationFrame(animationId);
 
-				audio.Map.stop();
-				audio.initBattle.play();
-				audio.Battle.play();
+        audio.Map.stop();
+        audio.initBattle.play();
+        audio.Battle.play();
 
         battle.initiated = true;
         gsap.to("#overlappingDiv", {
@@ -216,9 +295,14 @@ function animate() {
     player.animate = true;
     player.image = player.sprites.up;
 
+    checkForCharacterCollision({
+      characters,
+      player,
+      characterOffset: { x: 0, y: 3 },
+    });
+
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
-      //player当たり判定
       if (
         rectangularCollision({
           rectangle1: player,
@@ -243,6 +327,12 @@ function animate() {
   } else if (keys.a.pressed && lastKey === "a") {
     player.animate = true;
     player.image = player.sprites.left;
+
+    checkForCharacterCollision({
+      characters,
+      player,
+      characterOffset: { x: 3, y: 0 },
+    });
 
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
@@ -272,6 +362,12 @@ function animate() {
     player.animate = true;
     player.image = player.sprites.down;
 
+		checkForCharacterCollision({
+      characters,
+      player,
+      characterOffset: { x: 0, y: -3 },
+    });
+
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
       //player当たり判定
@@ -299,6 +395,12 @@ function animate() {
   } else if (keys.d.pressed && lastKey === "d") {
     player.animate = true;
     player.image = player.sprites.right;
+
+		checkForCharacterCollision({
+      characters,
+      player,
+      characterOffset: { x: -3, y: 0 },
+    });
 
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
@@ -376,6 +478,7 @@ window.addEventListener("keyup", (e) => {
   }
 });
 
+//画面をクリックして音楽を再生
 let clicked = false;
 addEventListener("click", () => {
   if (!clicked) {

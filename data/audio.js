@@ -2,7 +2,8 @@ const audio = {
 	Map: new Howl({
 		src: "./public/metamon/audio/metametamonmon.m4a",
 		html5: true,
-		volume: 0.5
+		volume: 0.5,
+		loop: true,
 	}),
 	initBattle: new Howl({
 		src: "./public/metamon/audio/initBattle.wav",
@@ -12,7 +13,8 @@ const audio = {
 	Battle: new Howl({
 		src: "./public/metamon/audio/battle.mp3",
 		html5: true,
-		volume: 0.1	
+		volume: 0.1,
+		loop: true,
 	}),
 	tackleHit: new Howl({
 		src: "./public/metamon/audio/tackleHit.wav",

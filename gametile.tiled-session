@@ -4,23 +4,39 @@
         "."
     ],
     "exportAsImage.useCurrentScale": true,
+    "file.lastUsedOpenFilter": "すべてのファイル (*)",
     "fileStates": {
         "C:/Users/rukayuki/Desktop/project/gamemap/modules/Collision.tsx": {
             "scaleInDock": 1,
             "scaleInEditor": 1
+        },
+        "C:/Users/rukayuki/Desktop/project/gamemap/modules/villager.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "C:/Users/rukayuki/Desktop/project/gamemap/modules/villeger.tsx": {
+            "scaleInDock": 4,
+            "scaleInEditor": 8
         },
         "Collision.tsx": {
             "dynamicWrapping": true,
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
+        "Idle.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 11
+        },
         "game_map.tmx": {
-            "scale": 4,
-            "selectedLayer": 10,
+            "scale": 0.75,
+            "selectedLayer": 11,
             "viewCenter": {
-                "x": 461.75,
-                "y": 317.125
+                "x": 482.66666666666663,
+                "y": 278
             }
+        },
+        "game_map.tmx#pokemonmap": {
+            "scaleInDock": 1
         },
         "pokemonmap.tsx": {
             "dynamicWrapping": false,
@@ -31,15 +47,23 @@
     "last.exportedFilePath": "C:/Users/rukayuki/Desktop/project/kurumayu",
     "last.externalTilesetPath": "C:/Users/rukayuki/Desktop/project/gamemap/modules",
     "last.imagePath": "C:/Users/rukayuki/Desktop/project/gamemap",
-    "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
+    "map.lastUsedExportFilter": "JavaScript マップファイル (*.js)",
     "openFiles": [
         "game_map.tmx"
     ],
     "project": "gametile.tiled-project",
     "recentFiles": [
         "game_map.tmx",
+        "C:/Users/rukayuki/Desktop/project/gamemap/modules/villager.tsx",
+        "C:/Users/rukayuki/Desktop/project/gamemap/modules/villeger.tsx",
+        "Idle.tsx",
         "C:/Users/rukayuki/Desktop/project/gamemap/modules/Collision.tsx",
         "pokemonmap.tsx",
         "Collision.tsx"
-    ]
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 12,
+        "width": 12
+    }
 }
