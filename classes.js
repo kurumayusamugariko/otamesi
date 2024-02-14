@@ -249,7 +249,7 @@ class Boundary {
   }
 }
 
-//playerのアニメーション
+
 class Character extends Sprite {
   constructor({
     position,

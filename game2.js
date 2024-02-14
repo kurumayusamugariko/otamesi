@@ -3,6 +3,7 @@ const c = canvas.getContext("2d");
 
 canvas.width = 1024;
 canvas.height = 576;
+let flag = 0;
 
 const collisionsMap = [];
 for (let i = 0; i < collisions.length; i += 80) {
@@ -62,6 +63,8 @@ const oldmanImg = new Image();
 oldmanImg.src = "./public/metamon/chara/oldman.png";
 const whoImg = new Image();
 whoImg.src = "./public/metamon/player/playerDown.png";
+const metamonImg = new Image();
+metamonImg.src = "./public/metamon/chara/toumetamon.png";
 
 charactersMap.forEach((row, i) => {
   row.forEach((symbol, j) => {
@@ -81,9 +84,9 @@ charactersMap.forEach((row, i) => {
           scale: 3,
           animate: true,
           dialogue: [
-            "メタモンを探している？すまないが、いまは探し物で忙しいんだ。草むらを歩いているときに落としてしまったのか？",
-            "本当に見つからない！いったいどこで落としたんだ。釣り小屋に行った時には確かにあったのに...",
-						"それは僕の大事な○○！！君が見つけてくれたのか！ありがとう！！ああ、もうこんな時間か。気を付けておうちに帰るんだよ"
+            "メタモンを探している？すまないが、いまは探し物で忙しいんだ。\n草むらを歩いているときに落としてしまったのか？",
+            "本当に見つからない！いったいどこで落としたんだ。\n釣り小屋に行った時には確かにあったのに...",
+            "それは僕の大事な○○！！君が見つけてくれたのか！ありがとう！！\nああ、もうこんな時間か。気を付けておうちに帰るんだよ",
           ],
         })
       );
@@ -104,7 +107,7 @@ charactersMap.forEach((row, i) => {
           dialogue: [
             "良い釣り日和だ。I LOVE コイキング",
             "牧場主さん？彼なら僕と話した後、北西の花畑に行ってたよ。落とし物見つかるといいね",
-						"さて今日はここまでかな。帰って飯の支度でもするか"
+            "さて今日はここまでかな。帰って飯の支度でもするか",
           ],
           animate: true,
         })
@@ -122,7 +125,47 @@ charactersMap.forEach((row, i) => {
             hold: 80,
           },
           scale: 1,
-          dialogue: ["...?","...?","...?"],
+          dialogue: ["...?", "...?", "...?"],
+        })
+      );
+    } else if (symbol === 1001) {
+      characters.push(
+        new Character({
+          position: {
+            x: j * Boundary.width + offset.x,
+            y: i * Boundary.height + offset.y,
+          },
+          image: whoImg,
+          frames: {
+            max: 4,
+            hold: 80,
+          },
+          scale: 1,
+          dialogue: [
+            "牧場主の落とし物を拾った",
+            "牧場主の落とし物を拾った",
+            "牧場主の落とし物を拾った",
+          ],
+        })
+      );
+    } else if (symbol === 9999) {
+      characters.push(
+        new Character({
+          position: {
+            x: j * Boundary.width + offset.x,
+            y: i * Boundary.height + offset.y,
+          },
+          image: metamonImg,
+          frames: {
+            max: 1,
+            hold: 80,
+          },
+          scale: 1,
+          dialogue: [
+            "",
+            "",
+            "めためたもんもん",
+          ],
         })
       );
     }
@@ -137,10 +180,17 @@ charactersMap.forEach((row, i) => {
         })
       );
     }
+		if (symbol === 9999) {
+			console.log(boundaries.length - 1);
+		}
   });
 });
 
-console.log(characters);
+const metamon = boundaries[494];
+if(!flag==2){
+	characters[3].scale = 0;
+}
+
 
 //map画像objを作成
 const image = new Image();
@@ -213,13 +263,14 @@ const keys = {
   },
 };
 
-const moveables = [
+ moveables = [
   background,
   ...boundaries,
   foreground,
   ...battleZones,
   ...characters,
 ];
+
 const renderables = [
   background,
   ...boundaries,
@@ -447,34 +498,53 @@ window.addEventListener("keydown", (e) => {
   if (player.isInteracting) {
     switch (e.key) {
       case " ":
-        player.interactionAsset.dialogueIndex++;
+        // player.interactionAsset.dialogueIndex++;
 
         //会話切り替え
-        const { dialogueIndex, dialogue } = player.interactionAsset;
-        if (dialogueIndex <= dialogue.length - 1) {
-          document.querySelector("#characterDialogueBox").innerHTML =
-            player.interactionAsset.dialogue[dialogueIndex];
-          return;
-        }
+
+        // if (dialogueIndex <= dialogue.length - 1) {
+        //   document.querySelector("#characterDialogueBox").innerHTML =
+        //     player.interactionAsset.dialogue[dialogueIndex].replace(/\n/g, "<br>");
+        //   return;
+        // }
 
         //finish conversation
         player.isInteracting = false;
-        player.interactionAsset.dialogueIndex = 0;
+        // player.interactionAsset.dialogueIndex = 0;
         document.querySelector("#characterDialogueBox").style.display = "none";
+
+        if (
+          player.interactionAsset.dialogue[flag] === "牧場主の落とし物を拾った"
+        ) {
+          boundaries.splice(492, 1);
+          characters[1].image.src = "";
+          characters[1].dialogue = "";
+          flag = 2;
+        }
+        if (player.interactionAsset.dialogue[flag].indexOf("それは")>=0) {
+					console.log("くりあーーー");
+					characters[3].scale = 1;
+        }
+
+				if (player.interactionAsset.dialogue[flag]===("めためたもんもん")) {
+					document.querySelector("#clearscreen").style.opacity = 1;
+        }
 
         break;
     }
     return;
   }
-	console.log();
-
+	flag = 2;
   switch (e.key) {
     case " ":
-      if (!player.interactionAsset) return;
-
+      const { dialogue, id } = player.interactionAsset;
+      if (!player.interactionAsset || player.interactionAsset.dialogue[flag] === "") return;
       //会話スタート
-      const firstMessage = player.interactionAsset.dialogue[0];
-      document.querySelector("#characterDialogueBox").innerHTML = firstMessage;
+      let Message = player.interactionAsset.dialogue[flag].replace(
+        /\n/g,
+        "<br>"
+      );
+      document.querySelector("#characterDialogueBox").innerHTML = Message;
       document.querySelector("#characterDialogueBox").style.display = "flex";
       player.isInteracting = true;
       break;
@@ -525,6 +595,8 @@ window.addEventListener("keyup", (e) => {
 //画面をクリックして音楽を再生
 let clicked = false;
 addEventListener("click", () => {
+	document.querySelector("#startscreen").style.display = "none";
+	characters[3].scale = 0;
   if (!clicked) {
     audio.Map.play();
     clicked = true;
