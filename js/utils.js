@@ -15,6 +15,7 @@ function checkForCharacterCollision({
     y: 0,
   },
 }) {
+	player.interactionAsset = null;
   //monitor for character collision
   for (let i = 0; i < characters.length; i++) {
     const character = characters[i];
@@ -31,7 +32,8 @@ function checkForCharacterCollision({
         },
       })
     ) {
-      console.log("go");
+			player.interactionAsset = character;
+			break;
     }
   }
 }

@@ -68,7 +68,7 @@ charactersMap.forEach((row, i) => {
     //1026は村人
     if (symbol === 1026) {
       characters.push(
-        new Sprite({
+        new Character({
           position: {
             x: j * Boundary.width + offset.x,
             y: i * Boundary.height + offset.y,
@@ -80,12 +80,13 @@ charactersMap.forEach((row, i) => {
           },
           scale: 3,
           animate: true,
+					dialogue: ["...","Hey mister,have you seen my Doggochu?"],
         })
       );
       //1031は老人
     } else if (symbol === 1031) {
       characters.push(
-        new Sprite({
+        new Character({
           position: {
             x: j * Boundary.width + offset.x,
             y: i * Boundary.height + offset.y,
@@ -96,12 +97,13 @@ charactersMap.forEach((row, i) => {
             hold: 150,
           },
           scale: 3,
+					dialogue: ["My bones hurt."],
           animate: true,
         })
       );
     } else if (symbol === 1099) {
       characters.push(
-        new Sprite({
+        new Character({
           position: {
             x: j * Boundary.width + offset.x,
             y: i * Boundary.height + offset.y,
@@ -112,6 +114,7 @@ charactersMap.forEach((row, i) => {
             hold: 80,
           },
           scale: 1,
+					dialogue: ["...?"],
         })
       );
     }
@@ -434,6 +437,9 @@ let lastKey = "";
 //キーボード操作
 window.addEventListener("keydown", (e) => {
   switch (e.key) {
+		case " ":
+		console.log("space");
+		break;
     case "ArrowUp":
     case "w":
       keys.w.pressed = true;

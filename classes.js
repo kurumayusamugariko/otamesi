@@ -8,7 +8,7 @@ class Sprite {
     sprites,
     animate = false,
     rotation = 0,
-		scale = 1,
+    scale = 1,
   }) {
     this.position = position;
     this.image = new Image();
@@ -17,14 +17,15 @@ class Sprite {
       this.width = (this.image.width / this.frames.max) * scale;
       this.height = this.image.height * scale;
     };
-		this.image.src = image.src;
-    
-		this.animate = animate;
+    this.image.src = image.src;
+
+    this.animate = animate;
     this.sprites = sprites;
     this.opacity = 1;
 
     this.rotation = rotation;
-		this.scale = scale;
+    this.scale = scale;
+		this.interactionAsset;
   }
 
   draw() {
@@ -40,23 +41,23 @@ class Sprite {
     );
     c.globalAlpha = this.opacity;
 
-		const crop = {
-			position: {
-				x: this.frames.val * (this.width / this.scale),
-				y: 0
-			},
-			width: this.image.width / this.frames.max,
-			height: this.image.height,
-		};
+    const crop = {
+      position: {
+        x: this.frames.val * (this.width / this.scale),
+        y: 0,
+      },
+      width: this.image.width / this.frames.max,
+      height: this.image.height,
+    };
 
-		const image = {
-			position: {
-				x: this.position.x,
-				y: this.position.y,
-			},
-			width: this.image.width / this.frames.max,
-			height: this.image.height,
-		};
+    const image = {
+      position: {
+        x: this.position.x,
+        y: this.position.y,
+      },
+      width: this.image.width / this.frames.max,
+      height: this.image.height,
+    };
 
     c.drawImage(
       this.image,
@@ -69,7 +70,7 @@ class Sprite {
       image.position.x,
       image.position.y,
       image.width * this.scale,
-      image.height * this.scale,
+      image.height * this.scale
     );
     c.restore();
 
@@ -117,14 +118,14 @@ class Monster extends Sprite {
 
   faint() {
     document.querySelector("#dialogueBox").innerHTML = this.name + " fainted! ";
-		gsap.to(this.position, {
-			y: this.position.y + 20,
-		})
-		gsap.to(this, {
-			opacity: 0,
-		})
-		audio.Battle.stop();
-		audio.victory.play();
+    gsap.to(this.position, {
+      y: this.position.y + 20,
+    });
+    gsap.to(this, {
+      opacity: 0,
+    });
+    audio.Battle.stop();
+    audio.victory.play();
   }
 
   //攻撃のアニメーションetc
@@ -143,7 +144,7 @@ class Monster extends Sprite {
 
     switch (attack.name) {
       case "Fireball":
-				audio.initFireball.play();
+        audio.initFireball.play();
         const fireballImage = new Image();
         fireballImage.src = "./public/metamon/monster/fireball.png";
         const fireball = new Sprite({
@@ -167,7 +168,7 @@ class Monster extends Sprite {
           y: recipient.position.y,
           onComplete: () => {
             //enemy actually gets hit
-						audio.fireballHit.play();
+            audio.fireballHit.play();
             gsap.to(healthBar, {
               width: recipient.health + "%",
             });
@@ -205,7 +206,7 @@ class Monster extends Sprite {
             duration: 0.1,
             onComplete: () => {
               //enemy actually gets hit
-							audio.tackleHit.play();
+              audio.tackleHit.play();
               gsap.to(healthBar, {
                 width: recipient.health + "%",
               });
@@ -245,5 +246,34 @@ class Boundary {
   draw() {
     c.fillStyle = "rgba(255, 0, 0, 0)"; //透明
     c.fillRect(this.position.x, this.position.y, this.width, this.height);
+  }
+}
+
+//playerのアニメーション
+class Character extends Sprite {
+  constructor({
+    position,
+    velocity,
+    image,
+    frames = { max: 1, hold: 10 },
+    sprites,
+    animate = false,
+    rotation = 0,
+    scale = 1,
+    dialogue = [""],
+  }) {
+    super({
+      position,
+      velocity,
+      image,
+      frames,
+      sprites,
+      animate,
+      rotation,
+      scale,
+    });
+
+		this.dialogue = dialogue;
+		this.dialogueIndex = 0;
   }
 }
