@@ -14,6 +14,11 @@ for (let i = 0; i < battleZonesData.length; i += 80) {
   battleZonesMap.push(battleZonesData.slice(i, 80 + i));
 }
 
+const charactersMap = [];
+for (let i = 0; i < charactersMapData.length; i += 80) {
+  charactersMap.push(charactersMapData.slice(i, 80 + i));
+}
+
 const boundaries = [];
 const offset = {
   x: -544,
@@ -50,7 +55,84 @@ battleZonesMap.forEach((row, i) => {
   });
 });
 
-console.log(battleZones);
+const characters = [];
+const villagerImg = new Image();
+villagerImg.src = "./public/metamon/chara/Idle.png";
+const oldmanImg = new Image();
+oldmanImg.src = "./public/metamon/chara/oldman.png";
+const whoImg = new Image();
+whoImg.src = "./public/metamon/player/playerDown.png";
+
+charactersMap.forEach((row, i) => {
+  row.forEach((symbol, j) => {
+    //1026は村人
+    if (symbol === 1026) {
+      characters.push(
+        new Character({
+          position: {
+            x: j * Boundary.width + offset.x,
+            y: i * Boundary.height + offset.y,
+          },
+          image: villagerImg,
+          frames: {
+            max: 4,
+            hold: 60,
+          },
+          scale: 3,
+          animate: true,
+					dialogue: ["...","Hey mister,have you seen my Doggochu?"],
+        })
+      );
+      //1031は老人
+    } else if (symbol === 1031) {
+      characters.push(
+        new Character({
+          position: {
+            x: j * Boundary.width + offset.x,
+            y: i * Boundary.height + offset.y,
+          },
+          image: oldmanImg,
+          frames: {
+            max: 4,
+            hold: 150,
+          },
+          scale: 3,
+					dialogue: ["My bones hurt."],
+          animate: true,
+        })
+      );
+    } else if (symbol === 1099) {
+      characters.push(
+        new Character({
+          position: {
+            x: j * Boundary.width + offset.x,
+            y: i * Boundary.height + offset.y,
+          },
+          image: whoImg,
+          frames: {
+            max: 4,
+            hold: 80,
+          },
+          scale: 1,
+					dialogue: ["...?"],
+        })
+      );
+    }
+
+    if (symbol !== 0) {
+      boundaries.push(
+        new Boundary({
+          position: {
+            x: j * Boundary.width + offset.x,
+            y: i * Boundary.height + offset.y,
+          },
+        })
+      );
+    }
+  });
+});
+
+console.log(characters);
 
 //map画像objを作成
 const image = new Image();
@@ -82,6 +164,7 @@ const player = new Sprite({
   image: playerDownImage,
   frames: {
     max: 4,
+    hold: 10,
   },
   sprites: {
     up: playerUpImage,
@@ -122,16 +205,21 @@ const keys = {
   },
 };
 
-const moveables = [background, ...boundaries, foreground, ...battleZones];
-
-function rectangularCollision({ rectangle1, rectangle2 }) {
-  return (
-    rectangle1.position.x + rectangle1.width >= rectangle2.position.x &&
-    rectangle1.position.x <= rectangle2.position.x + rectangle2.width &&
-    rectangle1.position.y <= rectangle2.position.y + rectangle2.height &&
-    rectangle1.position.y + rectangle1.height >= rectangle2.position.y
-  );
-}
+const moveables = [
+  background,
+  ...boundaries,
+  foreground,
+  ...battleZones,
+  ...characters,
+];
+const renderables = [
+  background,
+  ...boundaries,
+  ...battleZones,
+  ...characters,
+  player,
+  foreground,
+];
 
 const battle = {
   initiated: false,
@@ -139,21 +227,13 @@ const battle = {
 
 function animate() {
   const animationId = window.requestAnimationFrame(animate);
-
-  background.draw();
-  boundaries.forEach((boundary) => {
-    boundary.draw();
+  renderables.forEach((renderable) => {
+    renderable.draw();
   });
-  battleZones.forEach((battleZone) => {
-    battleZone.draw();
-  });
-  player.draw();
-  foreground.draw();
 
   let moving = true;
-  player.moving = false;
+  player.animate = false;
 
-  console.log(animationId);
   if (battle.initiated) return;
   //activate a battle
   if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
@@ -177,15 +257,16 @@ function animate() {
           rectangle2: battleZone,
         }) &&
         overlappingArea > (player.width * player.height) / 2 &&
-        Math.random() < 0.1 //10%の確率でバトルスタート
+        Math.random() < 0.03 //3%の確率でバトルスタート
       ) {
-        //バトルスタートアニメーション
-        console.log("battle start");
-
         //deactivate a current animation loop
         window.cancelAnimationFrame(animationId);
-        battle.initiated = true;
 
+        audio.Map.stop();
+        audio.initBattle.play();
+        audio.Battle.play();
+
+        battle.initiated = true;
         gsap.to("#overlappingDiv", {
           opacity: 1,
           repeat: 3,
@@ -195,16 +276,16 @@ function animate() {
             gsap.to("#overlappingDiv", {
               opacity: 1,
               duration: 0.4,
-							onComplete: () => {
-								//activate a new animation loop
-								animateBattle();
-								gsap.to("#overlappingDiv", {
-									opacity: 0,
-									duration: 0.4,
-								});
-							},
+              onComplete: () => {
+                //activate a new animation loop
+                initBattle();
+                animateBattle();
+                gsap.to("#overlappingDiv", {
+                  opacity: 0,
+                  duration: 0.4,
+                });
+              },
             });
-
           },
         });
         break;
@@ -214,12 +295,17 @@ function animate() {
 
   //playerの移動。まぁ動かしてるのは背景だけど
   if (keys.w.pressed && lastKey === "w") {
-    player.moving = true;
+    player.animate = true;
     player.image = player.sprites.up;
+
+    checkForCharacterCollision({
+      characters,
+      player,
+      characterOffset: { x: 0, y: 3 },
+    });
 
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
-      //player当たり判定
       if (
         rectangularCollision({
           rectangle1: player,
@@ -242,8 +328,14 @@ function animate() {
         moveable.position.y += 3;
       });
   } else if (keys.a.pressed && lastKey === "a") {
-    player.moving = true;
+    player.animate = true;
     player.image = player.sprites.left;
+
+    checkForCharacterCollision({
+      characters,
+      player,
+      characterOffset: { x: 3, y: 0 },
+    });
 
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
@@ -270,8 +362,14 @@ function animate() {
         moveable.position.x += 3;
       });
   } else if (keys.s.pressed && lastKey === "s") {
-    player.moving = true;
+    player.animate = true;
     player.image = player.sprites.down;
+
+		checkForCharacterCollision({
+      characters,
+      player,
+      characterOffset: { x: 0, y: -3 },
+    });
 
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
@@ -298,8 +396,14 @@ function animate() {
         moveable.position.y -= 3;
       });
   } else if (keys.d.pressed && lastKey === "d") {
-    player.moving = true;
+    player.animate = true;
     player.image = player.sprites.right;
+
+		checkForCharacterCollision({
+      characters,
+      player,
+      characterOffset: { x: -3, y: 0 },
+    });
 
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
@@ -329,27 +433,13 @@ function animate() {
 }
 // animate();
 
-const battleBackgroundImage = new Image();
-battleBackgroundImage.src = "./public/metamon/battleBackground.png";
-const battleBackground = new Sprite({
-  position: {
-    x: 0,
-    y: 0,
-  },
-  image: battleBackgroundImage,
-});
-function animateBattle() {
-  window.requestAnimationFrame(animateBattle);
-  battleBackground.draw();
-}
-
-animateBattle();
-
 let lastKey = "";
-
 //キーボード操作
 window.addEventListener("keydown", (e) => {
   switch (e.key) {
+		case " ":
+		console.log("space");
+		break;
     case "ArrowUp":
     case "w":
       keys.w.pressed = true;
@@ -391,5 +481,14 @@ window.addEventListener("keyup", (e) => {
     case "d":
       keys.d.pressed = false;
       break;
+  }
+});
+
+//画面をクリックして音楽を再生
+let clicked = false;
+addEventListener("click", () => {
+  if (!clicked) {
+    audio.Map.play();
+    clicked = true;
   }
 });
