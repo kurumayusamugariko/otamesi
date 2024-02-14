@@ -65,7 +65,7 @@ whoImg.src = "./public/metamon/player/playerDown.png";
 
 charactersMap.forEach((row, i) => {
   row.forEach((symbol, j) => {
-    //1026は村人
+    //1026は牧場主
     if (symbol === 1026) {
       characters.push(
         new Character({
@@ -80,7 +80,11 @@ charactersMap.forEach((row, i) => {
           },
           scale: 3,
           animate: true,
-					dialogue: ["...","Hey mister,have you seen my Doggochu?"],
+          dialogue: [
+            "メタモンを探している？すまないが、いまは探し物で忙しいんだ。草むらを歩いているときに落としてしまったのか？",
+            "本当に見つからない！いったいどこで落としたんだ。釣り小屋に行った時には確かにあったのに...",
+						"それは僕の大事な○○！！君が見つけてくれたのか！ありがとう！！ああ、もうこんな時間か。気を付けておうちに帰るんだよ"
+          ],
         })
       );
       //1031は老人
@@ -97,7 +101,11 @@ charactersMap.forEach((row, i) => {
             hold: 150,
           },
           scale: 3,
-					dialogue: ["My bones hurt."],
+          dialogue: [
+            "良い釣り日和だ。I LOVE コイキング",
+            "牧場主さん？彼なら僕と話した後、北西の花畑に行ってたよ。落とし物見つかるといいね",
+						"さて今日はここまでかな。帰って飯の支度でもするか"
+          ],
           animate: true,
         })
       );
@@ -114,7 +122,7 @@ charactersMap.forEach((row, i) => {
             hold: 80,
           },
           scale: 1,
-					dialogue: ["...?"],
+          dialogue: ["...?","...?","...?"],
         })
       );
     }
@@ -365,7 +373,7 @@ function animate() {
     player.animate = true;
     player.image = player.sprites.down;
 
-		checkForCharacterCollision({
+    checkForCharacterCollision({
       characters,
       player,
       characterOffset: { x: 0, y: -3 },
@@ -399,7 +407,7 @@ function animate() {
     player.animate = true;
     player.image = player.sprites.right;
 
-		checkForCharacterCollision({
+    checkForCharacterCollision({
       characters,
       player,
       characterOffset: { x: -3, y: 0 },
@@ -436,10 +444,40 @@ function animate() {
 let lastKey = "";
 //キーボード操作
 window.addEventListener("keydown", (e) => {
+  if (player.isInteracting) {
+    switch (e.key) {
+      case " ":
+        player.interactionAsset.dialogueIndex++;
+
+        //会話切り替え
+        const { dialogueIndex, dialogue } = player.interactionAsset;
+        if (dialogueIndex <= dialogue.length - 1) {
+          document.querySelector("#characterDialogueBox").innerHTML =
+            player.interactionAsset.dialogue[dialogueIndex];
+          return;
+        }
+
+        //finish conversation
+        player.isInteracting = false;
+        player.interactionAsset.dialogueIndex = 0;
+        document.querySelector("#characterDialogueBox").style.display = "none";
+
+        break;
+    }
+    return;
+  }
+	console.log();
+
   switch (e.key) {
-		case " ":
-		console.log("space");
-		break;
+    case " ":
+      if (!player.interactionAsset) return;
+
+      //会話スタート
+      const firstMessage = player.interactionAsset.dialogue[0];
+      document.querySelector("#characterDialogueBox").innerHTML = firstMessage;
+      document.querySelector("#characterDialogueBox").style.display = "flex";
+      player.isInteracting = true;
+      break;
     case "ArrowUp":
     case "w":
       keys.w.pressed = true;
