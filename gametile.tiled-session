@@ -28,11 +28,11 @@
             "scaleInEditor": 11
         },
         "game_map.tmx": {
-            "scale": 0.75,
+            "scale": 2,
             "selectedLayer": 11,
             "viewCenter": {
-                "x": 482.66666666666663,
-                "y": 278
+                "x": 283.5,
+                "y": 186.75
             }
         },
         "game_map.tmx#pokemonmap": {
