@@ -63,6 +63,8 @@ const oldmanImg = new Image();
 oldmanImg.src = "./public/metamon/chara/oldman.png";
 const whoImg = new Image();
 whoImg.src = "./public/metamon/player/playerDown.png";
+const itemImg = new Image();
+itemImg.src = "./public/metamon/chara/kira.png";
 const metamonImg = new Image();
 metamonImg.src = "./public/metamon/chara/toumetamon.png";
 
@@ -135,12 +137,13 @@ charactersMap.forEach((row, i) => {
             x: j * Boundary.width + offset.x,
             y: i * Boundary.height + offset.y,
           },
-          image: whoImg,
+          image: itemImg,
           frames: {
             max: 4,
             hold: 80,
           },
-          scale: 1,
+          scale: 3,
+					animate: true,
           dialogue: [
             "牧場主の落とし物を拾った",
             "牧場主の落とし物を拾った",
@@ -522,19 +525,20 @@ window.addEventListener("keydown", (e) => {
           flag = 2;
         }
         if (player.interactionAsset.dialogue[flag].indexOf("それは")>=0) {
-					console.log("くりあーーー");
 					characters[3].scale = 1;
         }
 
 				if (player.interactionAsset.dialogue[flag]===("めためたもんもん")) {
-					document.querySelector("#clearscreen").style.opacity = 1;
+					gsap.to("#clearscreen", {opacity:1, duration: 3});
+					gsap.fromTo("#roll",{opacity:0,y:350},{opacity:1, y:220,duration: 3, delay: 3});
+					gsap.to("#endimg", {autoAlpha: 1, duration: 5, delay: 9});
         }
 
         break;
     }
     return;
   }
-	flag = 2;
+
   switch (e.key) {
     case " ":
       const { dialogue, id } = player.interactionAsset;
@@ -595,7 +599,7 @@ window.addEventListener("keyup", (e) => {
 //画面をクリックして音楽を再生
 let clicked = false;
 addEventListener("click", () => {
-	document.querySelector("#startscreen").style.display = "none";
+	gsap.to("#startscreen", {opacity:0, duration: 3});
 	characters[3].scale = 0;
   if (!clicked) {
     audio.Map.play();
