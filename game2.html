@@ -8,18 +8,29 @@
       href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap"
+      rel="stylesheet"
+    />
     <style>
       * {
         font-family: "Press Start 2P", system-ui;
-				box-sizing: border-box;
+        box-sizing: border-box;
       }
       body {
+				display: flex;
+  			justify-content: center;
+  			align-items: center;
+  			height: 100vh;
         background-color: #c299cc;
         margin: 0 auto;
       }
       canvas {
-        border: 1px solid black;
-        margin: 8px;
+        border: 2px solid black;
+        margin: 0px;
+				
       }
       h1 {
         margin: 0;
@@ -32,12 +43,110 @@
       button:hover {
         background-color: #ddc;
       }
+      #characterDialogueBox {
+        font-family: "DotGothic16", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        font-size: 20px;
+      }
+			#canvas_wrapper {
+				margin: 0 auto;
+				display: flex;
+			}
     </style>
   </head>
   <body>
-    <h1>Nomatem</h1>
+    <h1 style="position: absolute; top: 80px;">Nomatem</h1>
 
     <div style="display: inline-block; position: relative">
+			<img src = "./public/metamon/a.png"
+			id="endimg"
+			style="
+				position: absolute;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				width:1028px;
+				height: 580px;
+				opacity: 0;
+				pointer-events: none;
+				z-index: 15;
+			"
+		>
+		</img>
+		<div id="roll"
+		style="
+		position: absolute;
+		background-color: black;
+		color: white;
+		margin: 8px;
+		height:50px;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		opacity: 0;
+		pointer-events: none;
+		z-index: 13;
+		text-align: center;
+	">
+	<p style = "padding-bottom: 30px; pointer-events: none;">game clear</p>
+	<p> </p>
+			<p>Nomatem</p>
+			<p>制作：　もんず</p>
+			
+		</div>
+      <div
+        id="clearscreen"
+        style="
+          position: absolute;
+          background-color: black;
+          margin: 8px;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          opacity: 0;
+          pointer-events: none;
+          z-index: 10;
+          text-align: center;
+        "
+      >
+      </div>
+      <div
+        id="startscreen"
+        style="
+          position: absolute;
+          margin: 8px;
+          top: 280px;
+          right: 0;
+          bottom: 0;
+          left: 0;
+					pointer-events: none;
+          text-align: center;
+          z-index: 15;
+        "
+      >
+        click to start
+      </div>
+      <div
+        id="startscreen"
+        style="
+          position: absolute;
+          background-color: white;
+          margin: 8px;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          opacity: 1;
+          pointer-events: none;
+          z-index: 10;
+          text-align: center;
+        "
+      ></div>
+
       <div
         id="overlappingDiv"
         style="
@@ -54,24 +163,24 @@
         "
       ></div>
 
-      <canvas></canvas>
-
-			<div
-					id="characterDialogueBox"
-          style="
-            margin: 8px;
-            background-color: white;
-            height: 140px;
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            border-top: 4px black solid;
-            display: none;
-						padding: 12px;
-          "
-        >
+			<div id="canvas_wrapper">
+				<canvas></canvas>
 			</div>
+
+      <div
+        id="characterDialogueBox"
+        style="
+          background-color: white;
+          height: 140px;
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          border: 4px rgb(30, 1, 33) solid;
+          display: none;
+          padding: 12px;
+        "
+      ></div>
 
       <div id="userInterface" style="display: none">
         <!-- Represents health bar of draggle(enemy)-->
@@ -138,7 +247,6 @@
 
         <div
           style="
-            margin: 8px;
             background-color: white;
             height: 140px;
             position: absolute;
@@ -204,8 +312,8 @@
     <script src="data/collisions.js"></script>
     <script src="data/attacks.js"></script>
     <script src="data/monstors.js"></script>
-		<script src="data/characters.js"></script>
-		<script src="js/utils.js"></script>
+    <script src="data/characters.js"></script>
+    <script src="js/utils.js"></script>
     <script src="classes.js"></script>
     <script src="game2.js"></script>
     <script src="battleScene.js"></script>

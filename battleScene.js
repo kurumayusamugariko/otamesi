@@ -64,6 +64,7 @@ function initBattle() {
 
 							battle.initiated = false;
 							audio.Map.play();
+							flag=1;
             },
           });
         });
