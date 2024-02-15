@@ -160,10 +160,11 @@ charactersMap.forEach((row, i) => {
           },
           image: metamonImg,
           frames: {
-            max: 1,
+            max: 4,
             hold: 80,
           },
-          scale: 1,
+          scale: 3,
+					animate: true,
           dialogue: [
             "",
             "",
@@ -522,7 +523,7 @@ window.addEventListener("keydown", (e) => {
           flag = 2;
         }
         if (player.interactionAsset.dialogue[flag].indexOf("それは")>=0) {
-					characters[3].scale = 1;
+					characters[3].scale = 3;
         }
 
 				if (player.interactionAsset.dialogue[flag]===("めためたもんもん")) {
