@@ -88,7 +88,7 @@ charactersMap.forEach((row, i) => {
           dialogue: [
             "メタモンを探している？すまないが、いまは探し物で忙しいんだ。\n草むらを歩いているときに落としてしまったのか？",
             "本当に見つからない！いったいどこで落としたんだ。\n釣り小屋に行った時には確かにあったのに...",
-            "それは僕の大事な○○！！君が見つけてくれたのか！ありがとう！！\nああ、もうこんな時間か。気を付けておうちに帰るんだよ",
+            "それは僕の大事な「かわらずのいし」！！君が見つけてくれたのか！ありがとう！！\nああ、もうこんな時間か。気を付けておうちに帰るんだよ",
           ],
         })
       );
@@ -160,10 +160,11 @@ charactersMap.forEach((row, i) => {
           },
           image: metamonImg,
           frames: {
-            max: 1,
+            max: 4,
             hold: 80,
           },
-          scale: 1,
+          scale: 3,
+					animate: true,
           dialogue: [
             "",
             "",
@@ -522,7 +523,7 @@ window.addEventListener("keydown", (e) => {
           flag = 2;
         }
         if (player.interactionAsset.dialogue[flag].indexOf("それは")>=0) {
-					characters[3].scale = 1;
+					characters[3].scale = 3;
         }
 
 				if (player.interactionAsset.dialogue[flag]===("めためたもんもん")) {
