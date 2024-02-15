@@ -15,6 +15,9 @@ Tiledでの変更→画像の移植
 
 ゲーム外要素
 
+ゲームリンク
+https://kurumayusamugariko.github.io/otamesi/game2
+
 githubリンク
 https://github.com/kurumayusamugariko/otamesi
 

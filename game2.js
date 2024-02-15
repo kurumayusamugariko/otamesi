@@ -183,9 +183,6 @@ charactersMap.forEach((row, i) => {
         })
       );
     }
-		if (symbol === 9999) {
-			console.log(boundaries.length - 1);
-		}
   });
 });
 
@@ -600,6 +597,7 @@ window.addEventListener("keyup", (e) => {
 let clicked = false;
 addEventListener("click", () => {
 	gsap.to("#startscreen", {opacity:0, duration: 3});
+	console.log("こんにちは")
 	characters[3].scale = 0;
   if (!clicked) {
     audio.Map.play();
