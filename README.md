@@ -16,8 +16,10 @@
 
 [ゲーム説明:](https://www.canva.com/design/DAF82ZKWB2w/rSBh03ZK58iYUWoG8pUojg/view?utm_content=DAF82ZKWB2w&utm_campaign=designshare&utm_medium=link&utm_source=editor)
 
-[参考資料：](https://youtu.be/yP5DKzriqXA?si=PN2P75wIeCyr8UBt)
-(https://github.com/chriscourses/pokemon-style-game)
+参考資料：
+[Chris chourses youtube](https://youtu.be/yP5DKzriqXA?si=PN2P75wIeCyr8UBt)
+[Chris chourses github](https://github.com/chriscourses/pokemon-style-game)
 
-[使用素材：](https://cypor.itch.io/12x12-rpg-tileset)
-(https://pixel-boy.itch.io/ninja-adventure-asset-pack)
+[使用素材：]
+[for player,world](https://cypor.itch.io/12x12-rpg-tileset)
+[for monster,villeger](https://pixel-boy.itch.io/ninja-adventure-asset-pack)
