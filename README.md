@@ -21,5 +21,5 @@
 [Chris chourses github](https://github.com/chriscourses/pokemon-style-game)
 
 使用素材：
-[プレイヤー、ワールド](https://cypor.itch.io/12x12-rpg-tileset)
+[プレイヤー、ワールド](https://cypor.itch.io/12x12-rpg-tileset)/
 [モンスター、村人](https://pixel-boy.itch.io/ninja-adventure-asset-pack)
