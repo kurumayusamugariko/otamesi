@@ -17,7 +17,7 @@
 [ゲーム説明リンク](https://www.canva.com/design/DAF82ZKWB2w/rSBh03ZK58iYUWoG8pUojg/view?utm_content=DAF82ZKWB2w&utm_campaign=designshare&utm_medium=link&utm_source=editor)
 <sub>プレイ前にp.3「あらすじ」の閲覧を推奨</sub>
 
-参考資料：
+参考資料：`#ffffff`
 [Chris chourses youtube](https://youtu.be/yP5DKzriqXA?si=PN2P75wIeCyr8UBt)/
 [Chris chourses github](https://github.com/chriscourses/pokemon-style-game)
 
